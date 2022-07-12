@@ -52,12 +52,11 @@ communicating results? We're using these terms as a part of a framework,
 or model, for what we mean by doing learning in STEM education research.
 
 The particular framework we are using comes from the work of Krumm et
-al.'s [*Learning Analytics Goes to
-School*](https://github.com/laser-institute/essential-readings/blob/main/laser-orientation/Learning%20Analytics%20Goes%20to%20School.pdf)*.*
-You can check that out, but don't feel any need to dive deep for now -
-we'll be spending more time on this in first day of the summer
-institute. For now, know that this document is organized around three of
-the five components of what we're referring to as the **LASER cycle**.
+al.'s [*Learning Analytics Goes to School*](library(t)*.* You can check
+that out, but don't feel any need to dive deep for now - we'll be
+spending more time on this in first day of the summer institute. For
+now, know that this document is organized around three of the five
+components of what we're referring to as the **LASER cycle**.
 
 Click the green arrow to the right of the "code chunk" below to view the
 image (more on that process of clicking the green arrow and what it
@@ -157,9 +156,11 @@ What do you notice about this data set? What do you wonder? Add one-two
 thoughts following the dashes next (you can add additional dashes if you
 like!):
 
--   
+-   Transcript data
 
--   
+-   Grade category has missing values
+
+-   Wonder about the unit of analysis, student-term-course-section?
 
 There are other ways to inspect your data; the `glimpse()` function
 provides one such way. Run the code below to take a glimpse at your
@@ -184,11 +185,12 @@ your area of work and/or research.
 
 What rows typically (or you think may) represent:
 
--   
+-   Student's course taking, student-term-course (section) level data
 
 What columns typically (or you think may) represent:
 
--   
+-   Variables that measure students' performance and effort on courses
+    taken per semester
 
 Next, we'll use a few functions that are handy for preparing data in
 table form.
@@ -261,15 +263,13 @@ play around with the code a bit!).
 
 ```{r}
 d |> 
-  filter(FinalGradeCEMS > 70)
+  filter(FinalGradeCEMS > 80)
 ```
 
 What happens when you change the cut-off from 70 to something else? Add
 a thought (or more):
 
--   
-
-### Arrange
+It filters the obs with more than 80% in final gradesCEMS
 
 The last function we'll use for preparing tables is arrange.
 
@@ -317,7 +317,7 @@ together in the code chunk above.
 who wish to do a bit more with these functions at this time (we'll do
 more in class, too!)*
 
-```{r}
+```{r}d |> select(student_id, points_earned, gender) |>filter(total_points_earned>2000)}
 
 ```
 
@@ -357,7 +357,7 @@ consider this list of valid color names here:
 
 ```{r}
 ggplot(d, aes(x = FinalGradeCEMS)) +
-  geom_histogram(fill = "blue")
+  geom_histogram(fill = "red")
 ```
 
 Finally, we'll make one more change; visualize the distribution of
@@ -366,8 +366,8 @@ so by swapping out the name for another variable with FinalGradeCEMS.
 Also, change the color to one other than blue.
 
 ```{r}
-ggplot(d, aes(x = FinalGradeCEMS)) +
-  geom_histogram(fill = "blue")
+ggplot(d, aes(x = total_points_earned)) +
+  geom_histogram(fill = "green")
 ```
 
 ### Reach 2 🎉
@@ -378,7 +378,7 @@ the names of two variables to the code below for what is now simply XXX
 (a placeholder).
 
 ```{r}
-ggplot(d, aes(x = XXX, y = XXX)) +
+ggplot(d, aes(x = total_points_earned, y = percentage_earned)) +
   geom_point()
 ```
 
@@ -412,7 +412,7 @@ results? We're going to dive into this *much* more: if you have many
 questions now, you're in the right spot!
 
 ```{r}
-m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject, data = d)
+m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject +int, data = d)
 summary(m2)
 ```
 
